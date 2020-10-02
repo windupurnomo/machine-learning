@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.svm import SVC
+from sklearn.metrics import r2_score
 
 model = SVC(gamma='scale')
 
@@ -39,8 +40,7 @@ training_target = training_target.astype("int")
 # proses TRAINING
 model.fit(training_data, training_target)
 prediction = model.predict(testing_data)
+accuration = r2_score(testing_target, prediction)
 
-print(prediction)
-print(prediction.shape)
-
-
+print(accuration)
+print(df_num.corr())

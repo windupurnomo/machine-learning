@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.svm import SVC
 from sklearn.metrics import r2_score
+import pickle
 
 model = SVC(gamma='scale')
 
@@ -8,7 +9,7 @@ model = SVC(gamma='scale')
 loan = pd.read_csv("kaggle_loan_training.csv")
 
 # kolom yg ingin dihapus
-to_drop = ["Loan_ID", "Gender", "Self_Employed", "Credit_History", "Property_Area"]
+to_drop = ["Loan_ID", "Gender", "Education", "Self_Employed", "CoapplicantIncome", "Credit_History", "Property_Area"]
 loan.drop(columns=to_drop, inplace=True)
 
 
@@ -61,7 +62,6 @@ for i in range(n):
     if a == b:
         truePredict += 1
 
-# print("Prediksi benar: {} dari {}".format(truePredict, n))
 
 predictionScore = r2_score(lb_testing, prediction)
 modelScore = model.score(dt_testing, lb_testing)
@@ -69,3 +69,8 @@ modelScore = model.score(dt_testing, lb_testing)
 print("r2score: ", predictionScore)
 print("model score: ", modelScore)
 print("Manual Accuracy {:.4f}".format(truePredict / n))
+print(loan_num.columns)
+
+# simpan model dalam file
+with open('loan-classifier.pkl', 'wb') as file:
+    pickle.dump(model, file)
