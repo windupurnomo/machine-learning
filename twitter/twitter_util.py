@@ -1,17 +1,16 @@
 import re
+import matplotlib.pyplot as plt
 
 
 def clean(tweet):
     tweet_clean = ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
     return tweet_clean
 
-#exercise 1
-def sentimen_text(sentimen_val):
-    # buat logic untuk mengubah value menjadi text
-    # menggunakan conditional IF/ELSE
-    # kemungkinan nilai: POSITIVE, NEUTRAL, NEGATIVE
-    return ""
 
-#exercise 2
-def sentimen_percentage(tweets):
-    return "positif => 30%\nnetral => 40%\nnegative => 30%"
+def pie(labels, values, title):
+    plt.title(title)
+    explode = (0.1, 0, 0)  # explode 1st slice
+    plt.pie(values, explode=explode, labels=labels,
+            autopct='%0.1f%%', shadow=True, startangle=140)
+    plt.axis('equal')
+    plt.show()
