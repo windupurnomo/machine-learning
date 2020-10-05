@@ -14,7 +14,6 @@ liverpool = api.user_timeline(id="LFC", count="5")
 resultSearch = api.search(q=["wfh"], lang="id", count="10", tweet_mode="extended")
 
 print("========= tweet with keyword: covid =======")
-tweets = []
 for tweet in resultSearch:
     # print(tweet)
     tweet_clean = clean(tweet.full_text)
@@ -23,12 +22,7 @@ for tweet in resultSearch:
         analysis.translate(to="en")
     except Exception as e:
         print(e)
-    tweet_dict = {"text": tweet_clean, "polarity": analysis.polarity}
-    tweets.append(tweet_dict)
     print("ori      => ", tweet.full_text)
     print("clean    => ", tweet_clean)
     print("sentimen => ", analysis.polarity)
     print("======================")
-
-print("========== FINAL ============")
-print(tweets)
