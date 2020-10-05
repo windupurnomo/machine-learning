@@ -14,15 +14,25 @@ liverpool = api.user_timeline(id="LFC", count="5")
 resultSearch = api.search(q=["wfh"], lang="id", count="10", tweet_mode="extended")
 
 print("========= tweet with keyword: covid =======")
+positive_tweets = 0
+neutral_tweets = 0
+negative_tweets = 0
 for tweet in resultSearch:
-    # print(tweet)
     tweet_clean = clean(tweet.full_text)
     analysis = TextBlob(tweet_clean)
     try:
-        analysis.translate(to="en")
+        analysis = analysis.translate(to="en", from_lang="id")
     except Exception as e:
         print(e)
-    print("ori      => ", tweet.full_text)
-    print("clean    => ", tweet_clean)
-    print("sentimen => ", analysis.polarity)
-    print("======================")
+    polarity = analysis.polarity
+    if polarity > 0.0:
+        positive_tweets += 1
+    elif polarity == 0.0:
+        neutral_tweets += 1
+    else:
+        negative_tweets += 1
+
+total = positive_tweets + neutral_tweets + negative_tweets
+print("Positive: {:.2f}%".format(100 * positive_tweets / total))
+print("Neutral: {:.2f}%".format(100 * neutral_tweets / total))
+print("Negative: {:.2f}%".format(100 * negative_tweets / total))
